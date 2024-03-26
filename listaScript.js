@@ -1,27 +1,58 @@
 // Espera a que el DOM esté completamente cargado
 document.addEventListener("DOMContentLoaded", function() {
     // Realizar solicitud AJAX para obtener la lista de usuarios
+    cargarListaUsuarios();
+
+    // Manejar clic en el botón de búsqueda
+    var searchButton = document.getElementById("search-button");
+    searchButton.addEventListener("click", function() {
+        var searchText = document.getElementById("search-input").value;
+        buscarUsuario(searchText);
+    });
+});
+
+// Función para cargar la lista de usuarios
+function cargarListaUsuarios() {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "http://168.194.207.98:8081/tp/lista.php?action=BUSCAR", true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
-                // Procesar la respuesta JSON y mostrar la lista de usuarios
                 var listaUsuarios = JSON.parse(xhr.responseText);
                 mostrarLista(listaUsuarios);
             } else {
-                // En caso de error en la solicitud AJAX, mostrar mensaje de error
                 console.error("Error al obtener la lista de usuarios.");
             }
         }
     };
-    // Enviar la solicitud AJAX
     xhr.send();
-});
+}
+
+// Función para buscar un usuario
+function buscarUsuario(textoBusqueda) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://168.194.207.98:8081/tp/lista.php?action=BUSCAR&usuario=" + encodeURIComponent(textoBusqueda), true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                var resultadoBusqueda = JSON.parse(xhr.responseText);
+                if (resultadoBusqueda.length > 0) {
+                    mostrarLista(resultadoBusqueda);
+                } else {
+                    mostrarMensaje("No se encontraron resultados.");
+                }
+            } else {
+                console.error("Error al realizar la búsqueda.");
+            }
+        }
+    };
+    xhr.send();
+}
 
 // Función para mostrar la lista de usuarios en la tabla
 function mostrarLista(listaUsuarios) {
     var listaGrid = document.getElementById("lista-grid");
+    listaGrid.innerHTML = ""; // Limpiar contenido anterior
 
     // Crear tabla
     var table = document.createElement("table");
@@ -54,4 +85,10 @@ function mostrarLista(listaUsuarios) {
 
     // Agregar tabla al contenedor
     listaGrid.appendChild(table);
+}
+
+// Función para mostrar un mensaje al usuario
+function mostrarMensaje(mensaje) {
+    var listaGrid = document.getElementById("lista-grid");
+    listaGrid.innerHTML = "<p>" + mensaje + "</p>";
 }
