@@ -1,0 +1,108 @@
+/* Estilos generales del documento */
+
+body {
+    /* Configuración básica */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Tamaño de la ventana */
+    background-color: #f2f2f2; /* Color de fondo */
+}
+
+/* Contenedor principal del formulario de inicio de sesión */
+
+.login-container {
+    /* Estilos del contenedor */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+/* Grupo de elementos del formulario (por ejemplo, Usuario, Contraseña) */
+
+.form-group {
+    /* Margen inferior para separar los grupos */
+    margin-bottom: 20px;
+    /* Diseño en columna para los elementos dentro del grupo */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Etiqueta para campos de entrada */
+
+label {
+    /* Espacio entre la etiqueta y el campo */
+    margin-bottom: 5px;
+}
+
+/* Estilos comunes para campos de entrada y botón */
+
+input[type="text"],
+input[type="password"],
+button {
+    /* Ancho total */
+    width: 100%;
+    /* Relleno interno */
+    padding: 10px;
+    /* Bordes redondeados */
+    border-radius: 5px;
+    /* Para incluir el padding en el ancho total */
+    box-sizing: border-box;
+}
+
+/* Estilos específicos para campos de entrada */
+
+input[type="text"],
+input[type="password"] {
+    /* Borde del campo de entrada */
+    border: 1px solid #ccc;
+}
+
+/* Estilos específicos para el botón */
+
+button {
+    /* Eliminar borde */
+    border: none;
+    /* Color de fondo */
+    background-color: #4CAF50;
+    /* Color del texto */
+    color: #fff;
+    /* Cursor al pasar sobre el botón */
+    cursor: pointer;
+    /* Transición suave del color de fondo */
+    transition: background-color 0.3s;
+}
+
+/* Cambio de color al pasar el mouse sobre el botón */
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Estilos cuando el campo de entrada está enfocado */
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    /* Eliminar el contorno predeterminado y aplicar un contorno personalizado */
+    outline: none;
+    border-color: #4CAF50;
+}
+
+/* Animación del marcador de posición (placeholder) */
+
+input[type="text"]::placeholder,
+input[type="password"]::placeholder {
+    /* Transición suave de la opacidad */
+    transition: opacity 0.3s ease;
+}
+
+/* Ocultar el marcador de posición cuando el campo está enfocado */
+
+input[type="text"]:focus::placeholder,
+input[type="password"]:focus::placeholder {
+    opacity: 0;
+}
