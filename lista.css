@@ -41,3 +41,31 @@ tr.bloqueado-si {
 tr.bloqueado-no {
     background-color: #49ee49; /* Verde suave */
 }
+
+/* Estilos para los botones de bloquear y desbloquear */
+.bloquear-btn,
+.desbloquear-btn {
+    display: inline-block;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.bloquear-btn {
+    background-color: #ff0000; /* Rojo */
+    color: #000;
+}
+
+.desbloquear-btn {
+    background-color: #00ff00; /* Verde */
+    color: #000;
+}
+
+/* Estilos para la imagen dentro de los botones */
+.bloquear-btn img,
+.desbloquear-btn img {
+    width: 20px; /* Ancho de la imagen */
+    height: 20px; /* Alto de la imagen */
+    vertical-align: middle; /* Alinear verticalmente con el texto */
+}

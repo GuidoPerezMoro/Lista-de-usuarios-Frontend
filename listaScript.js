@@ -66,6 +66,15 @@ function mostrarLista(listaUsuarios) {
             headerRow.appendChild(th);
         }
     }
+    // Agregar encabezados para bloquear y desbloquear
+    var bloquearHeader = document.createElement("th");
+    bloquearHeader.textContent = "BLOQUEAR";
+    headerRow.appendChild(bloquearHeader);
+
+    var desbloquearHeader = document.createElement("th");
+    desbloquearHeader.textContent = "DESBLOQUEAR";
+    headerRow.appendChild(desbloquearHeader);
+
     table.appendChild(headerRow);
 
     // Agregar filas de datos
@@ -78,6 +87,33 @@ function mostrarLista(listaUsuarios) {
                 row.appendChild(cell);
             }
         }
+
+        // Agregar botón para bloquear
+        var bloquearCell = document.createElement("td");
+        var bloquearBtn = document.createElement("button");
+        bloquearBtn.className = "bloquear-btn";
+        bloquearBtn.innerHTML = '<img src="pulgar-abajo.png" alt="Bloquear" width="20" height="20">';
+        bloquearBtn.addEventListener("click", function() {
+            bloquearUsuario(usuario.id, function() {
+                cargarListaUsuarios(); // Actualizar la lista después de bloquear
+            });
+        });
+        bloquearCell.appendChild(bloquearBtn);
+        row.appendChild(bloquearCell);
+
+        // Agregar botón para desbloquear
+        var desbloquearCell = document.createElement("td");
+        var desbloquearBtn = document.createElement("button");
+        desbloquearBtn.className = "desbloquear-btn";
+        desbloquearBtn.innerHTML = '<img src="pulgar-arriba.png" alt="Desbloquear" width="20" height="20">';
+        desbloquearBtn.addEventListener("click", function() {
+            desbloquearUsuario(usuario.id, function() {
+                cargarListaUsuarios(); // Actualizar la lista después de desbloquear
+            });
+        });
+        desbloquearCell.appendChild(desbloquearBtn);
+        row.appendChild(desbloquearCell);
+
         // Establecer clase y color de fondo según el estado de bloqueo del usuario
         row.classList.add(usuario.bloqueado === "Y" ? "bloqueado-si" : "bloqueado-no");
         table.appendChild(row);
@@ -91,4 +127,41 @@ function mostrarLista(listaUsuarios) {
 function mostrarMensaje(mensaje) {
     var listaGrid = document.getElementById("lista-grid");
     listaGrid.innerHTML = "<p>" + mensaje + "</p>";
+}
+
+// Función para bloquear un usuario
+function bloquearUsuario(idUsuario) {
+    enviarSolicitud("BLOQUEAR", idUsuario, "Y", function() {
+        // Ejecutar la búsqueda nuevamente para actualizar la tabla
+        var searchText = document.getElementById("search-input").value;
+        buscarUsuario(searchText);
+    });
+}
+
+// Función para desbloquear un usuario
+function desbloquearUsuario(idUsuario) {
+    enviarSolicitud("BLOQUEAR", idUsuario, "N", function() {
+        // Ejecutar la búsqueda nuevamente para actualizar la tabla
+        var searchText = document.getElementById("search-input").value;
+        buscarUsuario(searchText);
+    });
+}
+
+// Función para enviar la solicitud para bloquear o desbloquear un usuario
+function enviarSolicitud(accion, idUsuario, estado, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://168.194.207.98:8081/tp/lista.php?action=" + accion + "&idUser=" + idUsuario + "&estado=" + estado, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Ejecutar el callback si está definido
+                if (typeof callback === "function") {
+                    callback();
+                }
+            } else {
+                console.error("Error al procesar la solicitud.");
+            }
+        }
+    };
+    xhr.send();
 }
