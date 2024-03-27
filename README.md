@@ -5,3 +5,5 @@ Laboratorio de computación IV
 Prof. Gerardo Magni
 
 TP 1 Individual
+
+Guido Pérez Moro
